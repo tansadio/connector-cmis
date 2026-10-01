@@ -26,7 +26,8 @@ class CmisBackend(models.Model):
         "browser/",
     )
     username = fields.Char(required=True)
-    password = fields.Char(required=True)
+    # the users need to read the backends, not their credentials
+    password = fields.Char(required=True, groups="base.group_system")
     timeout = fields.Integer(
         default=30, help="Timeout of the requests to the CMIS server, in seconds"
     )
@@ -42,11 +43,12 @@ class CmisBackend(models.Model):
     def get_cmis_client(self):
         """Get an initialized CmisClient using the CMIS browser binding"""
         self.ensure_one()
+        backend = self.sudo()
         return CmisClient(
-            self.location,
-            self.username,
-            self.password,
-            timeout=self.timeout or None,
+            backend.location,
+            backend.username,
+            backend.password,
+            timeout=backend.timeout or None,
         )
 
     def get_cmis_repository(self):

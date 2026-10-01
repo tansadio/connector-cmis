@@ -6,7 +6,8 @@ from unittest import mock
 
 from psycopg2 import IntegrityError
 
-from odoo.tests import common
+from odoo.exceptions import AccessError
+from odoo.tests import common, new_test_user
 from odoo.tools import mute_logger
 
 from ..client import CmisClient
@@ -56,6 +57,15 @@ class TestCmisBackend(common.TransactionCase):
         self.assertEqual(client.url, BROWSER_URL)
         self.assertEqual(client.session.auth, ("admin", "admin"))
         self.assertEqual(client.timeout, 30)
+
+    def test_password_access(self):
+        user = new_test_user(self.env, login="cmis_user", groups="base.group_user")
+        backend = self.backend.with_user(user)
+        self.assertEqual(backend.name, "Test cmis")
+        with self.assertRaises(AccessError):
+            backend.read(["password"])
+        # the users can use the backend
+        self.assertEqual(backend.get_cmis_client().session.auth, ("admin", "admin"))
 
     def test_get_folder_by_path_existing(self):
         self._mock_client(
