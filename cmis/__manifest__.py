@@ -12,7 +12,6 @@
     "website": "https://github.com/OCA/connector-cmis",
     "license": "AGPL-3",
     "depends": ["base"],
-    "external_dependencies": {"python": ["cmislib"]},
     "data": ["security/ir.model.access.csv", "views/cmis_backend.xml"],
     "demo": ["demo/cmis_backend_demo.xml"],
     "installable": True,

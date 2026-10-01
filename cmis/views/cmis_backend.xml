@@ -18,11 +18,12 @@
                             <field name="username" />
                             <field
                                 name="location"
-                                placeholder="e.g. http://localhost:8081/alfresco/s/cmis"
+                                placeholder="e.g. http://localhost:8080/alfresco/api/-default-/public/cmis/versions/1.1/browser/"
                             />
                         </group>
                         <group name="cmis_right">
                             <field name="password" password="True" />
+                            <field name="timeout" />
                         </group>
                     </group>
                     <group name="directory_conf" string="Directory Configuration">

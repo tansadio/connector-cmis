@@ -36,24 +36,32 @@ This module is the base for Odoo modules implementing different
 integration scenario with a CMIS server. It allows you to configure a
 CMIS backend in Odoo.
 
+It provides a lightweight client for the CMIS 1.1 browser binding
+(``odoo.addons.cmis.client``) covering navigation, folders and
+documents, queries, content streams and versioning. It has been tested
+with Alfresco Community 26.2.
+
 **Table of contents**
 
 .. contents::
    :local:
 
-Installation
-============
-
-To be compliant with python 3.x, the connector use the next version of
-the python cmislib library not yet released at this stage. The lib can
-be installed with:
-
-::
-
-   pip install git+https://github.com/apache/chemistry-cmislib.git@py3_compat#egg=cmislib
-
 Changelog
 =========
+
+19.0.1.0.0
+----------
+
+Migration to Odoo 19.0.
+
+The ``cmislib`` library, no longer maintained, is replaced by an
+internal client for the CMIS 1.1 browser binding
+(``odoo.addons.cmis.client``), based on ``requests``.
+``cmis.backend.get_cmis_client()`` and ``get_cmis_repository()`` now
+return objects of this client, and CMIS errors are raised as
+``CMISError`` subclasses (``CMISObjectNotFoundError``,
+``CMISContentAlreadyExistsError``...). The backend location must be the
+URL of the browser binding service.
 
 11.0.1.0.0
 ----------
@@ -85,6 +93,7 @@ Contributors
 - Laurent Mignon <laurent.mignon@acsone.eu>
 - Maxime Chambreuil <maxime.chambreuil@savoirfairelinux.com>
 - El Hadji Dem <elhadji.dem@savoirfairelinux.com>
+- tansadio <tansadio@gmail.com>
 
 Maintainers
 -----------
