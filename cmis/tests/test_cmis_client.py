@@ -156,6 +156,8 @@ class TestCmisClient(BaseCase):
         self.assertEqual(document.version_label, "1.0")
         kwargs = session.calls[1][2]
         self.assertEqual(kwargs["data"]["cmisaction"], "createDocument")
+        # the fields of the multipart request are encoded in UTF-8
+        self.assertEqual(kwargs["data"]["_charset_"], "UTF-8")
         self.assertEqual(kwargs["data"]["versioningState"], "major")
         self.assertEqual(
             kwargs["files"], {"content": ("a.pdf", b"%PDF", "application/pdf")}

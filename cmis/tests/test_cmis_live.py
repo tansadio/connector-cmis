@@ -46,10 +46,13 @@ class TestCmisLive(BaseCase):
         )
         with self.assertRaises(CMISContentAlreadyExistsError):
             self.folder.create_folder("Sous dossier é")
-        document = sub.create_document("a.txt", b"v1", "text/plain")
+        document = sub.create_document("Mémoire é.txt", b"v1", "text/plain")
+        self.assertEqual(document.name, "Mémoire é.txt")
         self.assertEqual(document.get_content(), b"v1")
-        self.assertEqual(document.get_paths(), [f"{sub.path}/a.txt"])
-        self.assertEqual([child.name for child in sub.iter_children()], ["a.txt"])
+        self.assertEqual(document.get_paths(), [f"{sub.path}/Mémoire é.txt"])
+        self.assertEqual(
+            [child.name for child in sub.iter_children()], ["Mémoire é.txt"]
+        )
         document.update_properties({"cmis:description": "hello"})
         self.assertEqual(document.refresh().properties["cmis:description"], "hello")
         document.delete()

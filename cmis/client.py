@@ -150,6 +150,9 @@ class CmisRepository:
     def _post(self, action, object_id=None, properties=None, content=None, **data):
         data["cmisaction"] = action
         data["succinct"] = "true"
+        # without it, the servers decode the fields of the multipart requests
+        # (with a content) as ISO-8859-1: "Mémoire" would be named "MÃ©moire"
+        data["_charset_"] = "UTF-8"
         if object_id:
             # object ids may contain ';' (versions, pwc): send them in the body
             data["objectId"] = object_id
